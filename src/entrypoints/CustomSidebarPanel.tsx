@@ -16,11 +16,9 @@ enum ActionType {
 
 const FIELDS_TO_EXCLUDE = [
   "id",
-  "type",
   "updated_at",
   "created_at",
   "position",
-  "item_type",
   "creator",
   "meta",
 ];
@@ -115,8 +113,11 @@ async function copy(
 
     const item = await currentClient.items.find(itemId, { nested: true });
 
-    FIELDS_TO_EXCLUDE.forEach((field) => delete (item as any)[field]);
+    console.log("before cleaning", structuredClone(item));
 
+    cleanItem(item, FIELDS_TO_EXCLUDE);
+
+    console.log("after cleaning", structuredClone(item));
     const resultActionType = await copyItemToTargetEnv(
       targetClient,
       itemId,
@@ -139,6 +140,27 @@ async function copy(
   } finally {
     setDisable(false);
   }
+}
+
+function cleanItem(item: any, fieldsToExclude: string[]): void {
+  if (item === null || item === undefined || typeof item !== "object") {
+    return;
+  }
+
+  // Delete excluded fields from current object
+  fieldsToExclude.forEach((field) => delete item[field]);
+
+  // Recursively clean nested objects and arrays but skip item_type fields
+  Object.keys(item).forEach((key) => {
+    if (key !== "item_type") {
+      const value = item[key];
+      if (Array.isArray(value)) {
+        value.forEach((element) => cleanItem(element, fieldsToExclude));
+      } else if (typeof value === "object") {
+        cleanItem(value, fieldsToExclude);
+      }
+    }
+  });
 }
 
 async function copyItemToTargetEnv(
