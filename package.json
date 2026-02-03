@@ -1,8 +1,8 @@
 {
-  "name": "datocms-plugin-sidebar-copy-to-env",
+  "name": "datocms-plugin-sidebar-copy-to-environment",
   "description": "Copy records between environments directly from the sidebar.",
   "version": "1.0.0",
-  "homepage": "https://github.com/NoszDom/datocms-sidebar-copy-to-env#readme",
+  "homepage": "https://github.com/NoszDom/datocms-sidebar-copy-to-environment#readme",
   "files": [
     "build",
     "docs"
@@ -37,7 +37,7 @@
     "vite": "^7.3.1"
   },
   "datoCmsPlugin": {
-    "title": "Sidebar Copy to Env",
+    "title": "Sidebar Copy to Environment",
     "entryPoint": "build/index.html",
     "permissions": [
       "currentUserAccessToken"
