@@ -40,6 +40,7 @@
     "title": "Sidebar Copy to Environment",
     "entryPoint": "build/index.html",
     "coverImage": "assets/cover.png",
+    "previewImage": "assets/demo.mp4",
     "permissions": [
       "currentUserAccessToken"
     ]
